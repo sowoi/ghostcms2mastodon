@@ -34,4 +34,6 @@ cp Pythonfiles and ini files to your webhook folder
  
 create a .secret file with your credentials
  
+# Acknowledgements
+This project uses https://github.com/halcy/Mastodon.py
 start uwsgi server: uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
