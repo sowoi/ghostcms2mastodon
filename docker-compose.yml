@@ -1,0 +1,12 @@
+version: '3.1'
+
+services:
+
+  ghostcms2mastodon:
+    image: okxo/ghostcms2mastodon:latest
+    restart: always
+    volumes:
+      - .secret:/.secret
+    restart: always
+    ports:
+      - 5000:5000
