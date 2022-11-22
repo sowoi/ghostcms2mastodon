@@ -23,9 +23,15 @@ docker compse up -d
 
 # Bare metal
 apt install python3-dev python3-venv
+ 
 pip3 install -r requirements
+ 
 python3 -m venv webhook && source webhook/bin/activate
+ 
 cd webhook
+ 
 cp Pythonfiles and ini files to your webhook folder
+ 
 create a .secret file with your credentials
+ 
 start uwsgi server: uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
