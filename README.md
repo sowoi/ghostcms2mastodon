@@ -7,6 +7,11 @@ The Flask script fetches the relevant data from the payload and creates a Mastod
 The Flask script is secured by UWSGI.
 As a bonus, GhostCMS tags are converted to Mastodon hashtags.
 
+# Prequistes
+- Mastodon access token 
+- Custom integrations webhook in Ghost CMS
+- You need to adjust .secrets 
+
 # Docker
 docker run -d -p 5000:5000/tcp -v $(pwd)/.secret:/.secret okxo/ghostcms2mastodon
 
