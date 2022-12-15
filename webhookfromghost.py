@@ -18,7 +18,7 @@ def get_webhook():
            print("Adding Hashtags: ", hashtags)
            ghostToot = ghostTitle + "\n" + ghostExcerpt + "\n" + ghostURL + "\n" + hashtags
            print("Creating toot: ", ghostToot)
-           mastodon = Mastodon(access_token = '.secret', debug_requests=True)           
+           mastodon = Mastodon(access_token = '/.secret', debug_requests=True)           
            mastodon.toot(ghostToot)
            return 'success', 200
           except:

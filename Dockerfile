@@ -1,10 +1,14 @@
 # syntax=docker/dockerfile:1
-FROM python:3.8-slim-bullseye
+FROM python:latest
 RUN apt update && apt install python3-dev gcc -y
-COPY requirements.txt requirements.txt
+RUN useradd -rm -d /home/appuser -s /bin/bash -g root -G sudo -u 1001 appuser
+COPY requirements.txt /home/appuser/requirements.txt
+USER appuser
+WORKDIR /home/appuser
 RUN pip3 install -r requirements.txt
-COPY webhookfromghost.ini webhookfromghost.ini
-COPY webhookfromghost.py webhookfromghost.py
-COPY wsgi.py wsgi.py
+ENV PATH=/home/appuser/.local/bin:$PATH
+COPY webhookfromghost.ini /home/appuser/webhookfromghost.ini
+COPY webhookfromghost.py /home/appuser/webhookfromghost.py
+COPY wsgi.py /home/appuser/wsgi.py
 EXPOSE 5000/tcp
-CMD [ "uwsgi", "--ini", "webhookfromghost.ini" ]
+CMD [ "uwsgi", "--ini", "/home/appuser/webhookfromghost.ini" ]
