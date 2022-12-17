@@ -28,9 +28,8 @@ okxo/ghostcms2mastodon
 
 # Docker compose
 See docker-compose.yml file
-You need to enter a fixed ip for the docker container. 
-docker compse up -d
-
+You need to enter a fixed ip for the docker container.
+docker compose up -d
 
 
 # Bare metal
