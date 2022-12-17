@@ -50,3 +50,6 @@ start uwsgi server: uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
  
 # Acknowledgements
 This project uses https://github.com/halcy/Mastodon.py
+
+# License
+Licensed under the terms of Apache License Version 2. See LICENSE file.
