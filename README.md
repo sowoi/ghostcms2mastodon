@@ -23,8 +23,8 @@ Your GhostCMS must then be added to the trusted proxies list in .env
 docker run -d -p 5000:5000/tcp \
 -e ASTODON_ACCESS_TOKEN='**Add_your_Access_Token_Here**' \
 -e MASTODON_BASE_URL='**https://Add_your_Mastodon_URL_Here**' \
--e TRUSTED_PROXIES='**LIST of IPs with access to local webhook endpoint**'
-\ okxo/ghostcms2mastodon
+-e TRUSTED_PROXIES='**LIST of IPs with access to local webhook endpoint**'\
+okxo/ghostcms2mastodon
 
 # Docker compose
 See docker-compose.yml file
