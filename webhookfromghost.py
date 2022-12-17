@@ -9,17 +9,6 @@ print(trusted_proxies)
 app = Flask(__name__)
 @app.route('/webhook', methods=['POST'])
 
-@app.before_request
-def limit_remote_addr():
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-          remote = request.environ['REMOTE_ADDR']        
-    else:
-          remote = request.environ['HTTP_X_FORWARDED_FOR']
-
-    if remote not in trusted_proxies:
-        # forbidden
-        abort(403) 
-
 
 def get_webhook():
         print(request)
@@ -71,6 +60,19 @@ def tags_to_mastodon_has(ghostTags):
          print(tags["name"])
          tagsList += " #"+tags["name"]
         return tagsList.lstrip()
-          
+
+@app.before_request
+def limit_remote_addr():
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+          remote = request.environ['REMOTE_ADDR']
+    else:
+          remote = request.environ['HTTP_X_FORWARDED_FOR']
+    print(remote)
+    print(trusted_proxies)
+    if remote not in str(trusted_proxies):
+        # forbidden                                                                                                                                                                                                                  
+        abort(403)
+
+    
 if __name__ == '__main__':
         app.run(host="0.0.0.0")
