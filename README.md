@@ -2,9 +2,10 @@
 Send posts from GhostCMS to Mastodon.
 
 # General design
-Ghost CMS triggers new posts and sends a webhook with the new post to a local Python Flask instance.
-The Flask script fetches the relevant data from the payload and creates a Mastodon post. We use Mastodon.py for this.
-The Flask script is secured by UWSGI and access control.
+Ghost CMS triggers new posts and sends a webhook with the new post to a local Python Flask instance.\
+The Flask script fetches the relevant data from the payload and creates a Mastodon post.\
+We use Mastodon.py for this.\
+The Flask script is secured by UWSGI and access control.\
 As a bonus, GhostCMS tags are converted to Mastodon hashtags.
 
 # Remote use
