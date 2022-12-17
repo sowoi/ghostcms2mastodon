@@ -27,8 +27,8 @@ docker run -d -p 5000:5000/tcp \
 okxo/ghostcms2mastodon
 
 # Docker compose
-See docker-compose.yml file
-You need to enter a fixed ip for the docker container.
+See docker-compose.yml file \
+You need to enter a fixed ip for the docker container. \
 docker compose up -d
 
 
