@@ -62,3 +62,6 @@ This project uses https://github.com/halcy/Mastodon.py and would not be feasible
 
 # License
 Licensed under the terms of Apache License Version 2. See LICENSE file.
+
+# Dev
+https://okxo.de
