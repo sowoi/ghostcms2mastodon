@@ -12,17 +12,29 @@ As a bonus, GhostCMS tags are converted to Mastodon hashtags.
 If you are not running the instance on the same server as Ghost CMS, you need to encrypt the connection via https (e.g. using a reverse proxy).
 Your GhostCMS must then be added to the trusted proxies list in .env
 
+
 # Prequistes
 - Mastodon access token 
 - Custom integrations webhook in Ghost CMS
-- You need to adjust .env
+- You need to adjust .env or pass the environment variables via docker run (see below)
+
+
+# Mastodon access token
+The only check you need to set is at "write:statuses".\
+Leave all others unchecked! \
+This container does not use any other settings and therefore does not need any other permissions!
 
 # Webhook endpoint
  http://<yourIP>:5000/webhook
+You can of course change this port via Docker or in the source code.  
+
+# Ghost CMS
+The settings in Ghost CMS are done via custom integrations.\
+The event trigger is "Post published
 
 # Docker
 docker run -d -p 5000:5000/tcp \
--e ASTODON_ACCESS_TOKEN='**Add_your_Access_Token_Here**' \
+-e MASTODON_ACCESS_TOKEN='**Add_your_Access_Token_Here**' \
 -e MASTODON_BASE_URL='**https://Add_your_Mastodon_URL_Here**' \
 -e TRUSTED_PROXIES='**LIST of IPs with access to local webhook endpoint**'\
 okxo/ghostcms2mastodon
@@ -34,23 +46,19 @@ docker compose up -d
 
 
 # Bare metal
-apt install python3-dev python3-venv
- 
-pip3 install -r requirements
- 
-python3 -m venv webhook && source webhook/bin/activate
- 
-cd webhook
- 
-cp Pythonfiles and ini files to your webhook folder
- 
-create a .secret file with your credentials
-
+apt install python3-dev python3-venv \
+pip3 install -r requirements \
+python3 -m venv webhook && source webhook/bin/activate \
+cd webhook \
+cp Pythonfiles and ini files to your webhook folder \
+export MASTODON_ACCESS_TOKEN='**Add_your_Access_Token_Here**' \
+export MASTODON_BASE_URL='**https://Add_your_Mastodon_URL_Here**' \
+export TRUSTED_PROXIES='**LIST of IPs with access to local webhook endpoint**'\
 start uwsgi server: uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
 
  
 # Acknowledgements
-This project uses https://github.com/halcy/Mastodon.py
+This project uses https://github.com/halcy/Mastodon.py and would not be feasible without this advance work.
 
 # License
 Licensed under the terms of Apache License Version 2. See LICENSE file.
