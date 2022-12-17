@@ -4,7 +4,7 @@ import os
 
 access_token = os.environ.get('MASTODON_ACCESS_TOKEN')
 base_url = os.environ.get('MASTODON_BASE_URL')
-trusted_proxies = "127.0.0.1", "10.9.9.99", os.environ.get('TRUSTED_PROXIES')
+trusted_proxies = "127.0.0.1", "10.9.9.1", "10.9.9.99", os.environ.get('TRUSTED_PROXIES')
 print(trusted_proxies)
 app = Flask(__name__)
 @app.route('/webhook', methods=['POST'])
