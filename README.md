@@ -36,7 +36,7 @@ The settings in Ghost CMS are done via custom integrations.\
 The event trigger is "Post published
 
 # Docker
-docker run -d -p 5000:5000/tcp \
+docker run -d -p 127.0.0.1:5000:5000/tcp \
 -e MASTODON_ACCESS_TOKEN='**Add_your_Access_Token_Here**' \
 -e MASTODON_BASE_URL='**https://Add_your_Mastodon_URL_Here**' \
 -e TRUSTED_PROXIES='**LIST of IPs with access to local webhook endpoint**'\
