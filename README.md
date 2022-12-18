@@ -8,10 +8,11 @@ We use Mastodon.py for this.\
 The Flask script is secured by UWSGI and access control.\
 As a bonus, GhostCMS tags are converted to Mastodon hashtags.
 
-# Remote use
-If you are not running the instance on the same server as Ghost CMS, you need to encrypt the connection via https (e.g. using a reverse proxy).
+# Remote use / security
+By default, the webhook endpoint should not be accessible from outside. \
+Access to the webhook is unencrypted, because GhostCMS does not allow access (without major intervention) to self-signed certificates. \
+If you are not running the instance on the same server as Ghost CMS, you need to encrypt the connection via https (e.g. using a reverse proxy). \
 Your GhostCMS must then be added to the trusted proxies list in .env
-
 
 # Prequistes
 - Mastodon access token 
