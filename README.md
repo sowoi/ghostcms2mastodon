@@ -25,8 +25,10 @@ Leave all others unchecked! \
 This container does not use any other settings and therefore does not need any other permissions!
 
 # Webhook endpoint
- http://<yourIP>:5000/webhook
-You can of course change this port via Docker or in the source code.  
+ http://**dockerIP**:5000/webhook
+You can of course change this port via Docker or in the source code.
+if you are using the docker compose setting with fixed ip, that would be the IP 10.9.9.99
+On bare metal installations it would be localhost.
 
 # Ghost CMS
 The settings in Ghost CMS are done via custom integrations.\
@@ -54,7 +56,7 @@ cp Pythonfiles and ini files to your webhook folder \
 export MASTODON_ACCESS_TOKEN='**Add_your_Access_Token_Here**' \
 export MASTODON_BASE_URL='**https://Add_your_Mastodon_URL_Here**' \
 export TRUSTED_PROXIES='**LIST of IPs with access to local webhook endpoint**'\
-start uwsgi server: uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+start uwsgi server: uwsgi --socket 127.0.0.1:5000 --protocol=http -w wsgi:app
 
  
 # Acknowledgements
