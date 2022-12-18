@@ -27,9 +27,9 @@ This container does not use any other settings and therefore does not need any o
 
 # Webhook endpoint
  http://**dockerIP**:5000/webhook
-You can of course change this port via Docker or in the source code.
-if you are using the docker compose setting with fixed ip, that would be the IP 10.9.9.99
-On bare metal installations it would be localhost.
+You can of course change this port via Docker or in the source code. \
+If you are using the docker compose setting with fixed ip, that would be the IP 10.9.9.99 \
+On bare metal installations it would be localhost/127.0.0.1.
 
 # Ghost CMS
 The settings in Ghost CMS are done via custom integrations.\
