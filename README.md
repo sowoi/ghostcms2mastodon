@@ -35,15 +35,75 @@ On bare metal installations it would be localhost/127.0.0.1.
 The settings in Ghost CMS are done via custom integrations.\
 The event trigger is "Post published
 
+# Create secrets
+Secrets are parsed to the folder .secrets in your docker folder:
+
+```
+.
+├── docker-compose.yml
+├── .secrets
+│   ├── MASTODON_ACCESS_TOKEN
+│   ├── MASTODON_BASE_URL
+│   ├── TRUSTED_PROXIES
+│   └── WEBHOOK_SECRET
+
+```
+
+Populate the files in the .secrets directory as follows:\
+Copy your Mastodon token to MASTODON_ACCESS_TOKEN.\
+Copy your Webhook token from Ghost CMS to WEBHOOK_SECRET.\
+Enter in MASTODON_BASE_URL the address of your Mastodon instance, e.g. https://mastodon.social .\
+At TRUSTED_PROXIES you enter a list of IPs that should have access to your webhook instance. \
+By default, only localhost and access via Docker subnet from the Docker compose example is entered with a fixed IP, i.e. 10.9.9.0/24.\
+
 # Docker
-docker run -d -p 127.0.0.1:5000:5000/tcp \
--e MASTODON_ACCESS_TOKEN='**Add_your_Access_Token_Here**' \
--e MASTODON_BASE_URL='**https://Add_your_Mastodon_URL_Here**' \
--e TRUSTED_PROXIES='**LIST of IPs with access to local webhook endpoint**'\
-okxo/ghostcms2mastodon
+```docker run -d -p 5000:5000/tcp \
+-v "${PWD}/.secrets/WEBHOOK_SECRET:/run/secrets/WEBHOOK_SECRET:ro" \
+-v "${PWD}/.secrets/MASTODON_ACCESS_TOKEN:/run/secrets/MASTODON_ACCESS_TOKEN:ro" \
+-v "${PWD}/.secrets/MASTODON_BASE_URL:/run/secrets/MASTODON_BASE_URL:ro" \
+-v "${PWD}/.secrets/TRUSTED_PROXIES:/run/secrets/TRUSTED_PROXIES:ro" \
+--net webhookSubnet \
+--ip 10.9.9.99 okxo/ghostcms2mastodon```
 
 # Docker compose
-See docker-compose.yml file \
+```
+version: '3.1'
+
+secrets:
+  WEBHOOK_SECRET:
+    file: ${PWD}/.secrets/WEBHOOK_SECRET
+  MASTODON_ACCESS_TOKEN:
+    file: ${PWD}/.secrets/MASTODON_ACCESS_TOKEN
+  MASTODON_BASE_URL:
+    file: ${PWD}/.secrets/MASTODON_BASE_URL
+  TRUSTED_PROXIES:
+    file: ${PWD}/.secrets/TRUSTED_PROXIES
+    
+services:
+  ghostcms2mastodon:
+    image: okxo/ghostcms2mastodon:latest
+    restart: always
+    ports:
+      - 127.0.0.1:5000:5000
+    secrets: [WEBHOOK_SECRET,MASTODON_ACCESS_TOKEN,MASTODON_BASE_URL,TRUSTED_PROXIES]
+    environment:
+       WEBHOOK_SECRET: /run/secrets/WEBHOOK_SECRET
+       MASTODON_ACCESS_TOKEN: /run/secrets/MASTODON_ACCESS_TOKEN
+       MASTODON_BASE_URL: /run/secrets/MASTODON_BASE_URL
+       TRUSTED_PROXIES: /run/secrets/TRUSTED_PROXIES
+    networks:
+      vpcbr:
+        ipv4_address: 10.9.9.99
+    tty: true
+
+networks:
+  vpcbr:
+     driver: bridge
+     ipam:
+       config:
+         - subnet: 10.9.9.0/24
+           gateway: 10.9.9.1
+```
 You need to enter a fixed ip for the docker container. \
 docker compose up -d
 

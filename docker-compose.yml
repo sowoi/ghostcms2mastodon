@@ -1,22 +1,31 @@
 version: '3.1'
 
+secrets:
+  WEBHOOK_SECRET:
+    file: ${PWD}/.secrets/WEBHOOK_SECRET
+  MASTODON_ACCESS_TOKEN:
+    file: ${PWD}/.secrets/MASTODON_ACCESS_TOKEN
+  MASTODON_BASE_URL:
+    file: ${PWD}/.secrets/MASTODON_BASE_URL
+  TRUSTED_PROXIES:
+    file: ${PWD}/.secrets/TRUSTED_PROXIES
+    
 services:
-
   ghostcms2mastodon:
     image: okxo/ghostcms2mastodon:latest
     restart: always
-    volumes:
-      - .secret:/.secret
-    restart: always
     ports:
       - 127.0.0.1:5000:5000
-    env_file:
-      - .env
+    secrets: [WEBHOOK_SECRET,MASTODON_ACCESS_TOKEN,MASTODON_BASE_URL,TRUSTED_PROXIES]
+    environment:
+       WEBHOOK_SECRET: /run/secrets/WEBHOOK_SECRET
+       MASTODON_ACCESS_TOKEN: /run/secrets/MASTODON_ACCESS_TOKEN
+       MASTODON_BASE_URL: /run/secrets/MASTODON_BASE_URL
+       TRUSTED_PROXIES: /run/secrets/TRUSTED_PROXIES
     networks:
       vpcbr:
         ipv4_address: 10.9.9.99
     tty: true
-
 
 networks:
   vpcbr:
