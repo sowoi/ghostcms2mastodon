@@ -1,4 +1,4 @@
-# ghost2cms2mastodon
+# ghostcms2mastodon
 Send posts from GhostCMS to Mastodon.
 
 # General design
