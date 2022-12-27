@@ -57,13 +57,17 @@ At TRUSTED_PROXIES you enter a list of IPs that should have access to your webho
 By default, only localhost and access via Docker subnet from the Docker compose example is entered with a fixed IP, i.e. 10.9.9.0/24.\
 
 # Docker
-```docker run -d -p 5000:5000/tcp \
+```
+docker run -d -p 5000:5000/tcp \
 -v "${PWD}/.secrets/WEBHOOK_SECRET:/run/secrets/WEBHOOK_SECRET:ro" \
 -v "${PWD}/.secrets/MASTODON_ACCESS_TOKEN:/run/secrets/MASTODON_ACCESS_TOKEN:ro" \
 -v "${PWD}/.secrets/MASTODON_BASE_URL:/run/secrets/MASTODON_BASE_URL:ro" \
 -v "${PWD}/.secrets/TRUSTED_PROXIES:/run/secrets/TRUSTED_PROXIES:ro" \
 --net webhookSubnet \
---ip 10.9.9.99 okxo/ghostcms2mastodon```
+--ip 10.9.9.99 okxo/ghostcms2mastodon
+```
+
+
 
 # Docker compose
 ```
