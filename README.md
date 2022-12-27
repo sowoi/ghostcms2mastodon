@@ -143,7 +143,7 @@ location /webhook {
         set_real_ip_from 10.0.0.0/8;
         set_real_ip_from 172.0.0.0/8;
         set_real_ip_from 10.9.0.0/16;
-q        set_real_ip_from 192.168.0.0/16;
+        set_real_ip_from 192.168.0.0/16;
         set_real_ip_from fc00::/7;
         real_ip_header X-Forwarded-For;
         real_ip_recursive on;
