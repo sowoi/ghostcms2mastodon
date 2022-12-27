@@ -121,7 +121,7 @@ Create an upstream in /etc/nginx/nginx.conf
   }
 ```
 
-Add webhook location to your GhostCMS NGINX conf:
+Add webhook location to your GhostCMS NGINX conf (in sites-availabe or in conf.d folder):
 
 ```
 location /webhook {
