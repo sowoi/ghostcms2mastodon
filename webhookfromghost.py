@@ -5,16 +5,11 @@ import os
 access_token = os.environ.get('MASTODON_ACCESS_TOKEN')
 base_url = os.environ.get('MASTODON_BASE_URL')
 trusted_proxies = "127.0.0.1", "10.9.9.1", "10.9.9.99", os.environ.get('TRUSTED_PROXIES')
-print(trusted_proxies)
 app = Flask(__name__)
+
 @app.route('/webhook', methods=['POST'])
-
-
 def get_webhook():
-        print(request)
-        print("checking access")
-        check_access()
-        print("access checked")
+        print("Posting to Mastodon")
         if request.method == 'POST':
           try:
            # extract post title, URL, excerpt and tags
@@ -30,19 +25,39 @@ def get_webhook():
            print("Creating toot: ", ghostToot)
            mastodon = Mastodon(access_token = access_token, api_base_url = base_url, debug_requests=True)           
            mastodon.toot(ghostToot)
-           return 'success', 200
+           return 'Send to Mastodon completed', 200
           except:
            raise
         else:
           abort(400)
 
+def tags_to_mastodon_has(ghostTags):
+# convert ghost cms tags to mastodon hashtags
+        tagsList = ''
+        for tags in ghostTags:
+                print(tags["name"])
+                tagsList += " #"+tags["name"]
+        return tagsList.lstrip()
 
+@app.before_request
+def limit_remote_addr():
+# check if remote ip is in trusted proxies
+    print("Checking IP")
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+            remote = request.environ['REMOTE_ADDR']
+    else:
+            remote = request.environ['HTTP_X_FORWARDED_FOR']
+    print("Got IP ", remote) 
+    if remote not in str(trusted_proxies):
+            print("Your IP is not in trusted proxies list!")
+            print(str(trusted_proxies))
+            # forbidden
+            abort(403)
+         
+@app.before_request
 def check_access():
-# check if token and url are set
-        if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-          print(request.environ['REMOTE_ADDR'])
-        else:
-          print(request.environ['HTTP_X_FORWARDED_FOR'])
+        print("Checking token and URL...")
+        # check if token and url are set
         if access_token == None:
           print("Missing Mastodon access token")
           raise RuntimeError('Missing Mastodon access token')
@@ -50,29 +65,19 @@ def check_access():
           print("Missing Mastodon base URL")
           raise RuntimeError('Missing Mastodon base URL')
         else:
-          return 'Got Mastodon access token and base URL'
+          print("Got Mastodon access token and base URL")
           
-def tags_to_mastodon_has(ghostTags):
-        # convert ghost cms tags to mastodon hashtags
-        tagsList = ''
-        #print(ghostTags)
-        for tags in ghostTags:
-         print(tags["name"])
-         tagsList += " #"+tags["name"]
-        return tagsList.lstrip()
-
-@app.before_request
-def limit_remote_addr():
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-          remote = request.environ['REMOTE_ADDR']
-    else:
-          remote = request.environ['HTTP_X_FORWARDED_FOR']
-    print(remote)
-    print(trusted_proxies)
-    if remote not in str(trusted_proxies):
-        # forbidden                                                                                                                                                                                                                  
-        abort(403)
+@app.before_request        
+def check_if_valid_ghost_post():
+# check for valid ghost post
+         print("Checking valid Header")
+         if "Ghost" not in str(request.headers.get('User-Agent')):
+           return 'Bad Request', abort(400)
+         elif "application/json" != str(request.headers.get('Content-Type')):
+           return 'Bad Request', abort(400)
+         else:
+           print("Seems to be valid Ghost CMS post")
 
     
 if __name__ == '__main__':
-        app.run(host="127.0.0.1")
+        app.run(host="0.0.0.0", debug=True)
