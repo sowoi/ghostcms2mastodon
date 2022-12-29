@@ -11,6 +11,13 @@ We use Mastodon.py for this.\
 The Flask script is secured by UWSGI and access control.\
 As a bonus, GhostCMS tags are converted to Mastodon hashtags.
 
+# Features
+- Once set up completely automated
+- Restricting access to trusted IPs
+- Encrypted transmission to Mastodon
+- Respecting Mastodon policies (no excessive ping queries, avoiding SPAM, etc.)
+- Extensive debugging
+
 # Remote use / security
 By default, the webhook endpoint should not be accessible from outside. \
 Access to the webhook is unencrypted, because GhostCMS does not allow access (without major intervention) to self-signed certificates. \
@@ -20,7 +27,7 @@ Your GhostCMS must then be added to the trusted proxies list in .env
 # Prequistes
 - Mastodon access token 
 - Custom integrations webhook in Ghost CMS
-- You need to adjust .env or pass the environment variables via docker run (see below)
+- You need to add secrets to .secure folder or pass the secrets via docker run
 
 
 # Mastodon access token
@@ -56,7 +63,7 @@ Populate the files in the .secrets directory as follows:\
 Copy your Mastodon token to MASTODON_ACCESS_TOKEN.\
 Copy your Webhook token from Ghost CMS to WEBHOOK_SECRET.\
 Enter in MASTODON_BASE_URL the address of your Mastodon instance, e.g. https://mastodon.social .\
-At TRUSTED_PROXIES you enter a list of IPs that should have access to your webhook instance. \
+At TRUSTED_PROXIES you enter a list of IPs that should have access to your webhook instance. 
 By default, only localhost and access via Docker subnet from the Docker compose example is entered with a fixed IP, i.e. 10.9.9.0/24.\
 
 # Docker
