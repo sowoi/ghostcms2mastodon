@@ -181,7 +181,7 @@ start uwsgi server: uwsgi --socket 127.0.0.1:5000 --protocol=http -w wsgi:app
 This project uses https://github.com/halcy/Mastodon.py and would not be feasible without this advance work.
 
 # License
-Licensed under the terms of Apache License Version 2. See LICENSE file.
+Licensed under the terms of GNU General Public License v3.0. See LICENSE file.
 
 # Dev
 https://okxo.de
