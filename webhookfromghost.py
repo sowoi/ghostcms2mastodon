@@ -13,15 +13,17 @@ def get_webhook():
         if request.method == 'POST':
           try:
            # extract post title, URL, excerpt and tags
-           ghostTitle = str(request.json["post"]["current"]["title"])
-           ghostURL = str(request.json["post"]["current"]["url"])
-           ghostExcerpt = str(request.json["post"]["current"]["custom_excerpt"])
-           ghostTags = request.json["post"]["current"]["tags"]         
-           ghostToot = ghostTitle + "\n" + ghostExcerpt + "\n" + ghostURL
+           ghostPost = request.json["post"]["current"]
+           ghostTitle = str(ghostPost["title"])
+           ghostURL = str(ghostPost["url"])
+           ghostExcerpt = str(ghostPost.get("custom_excerpt", ""))
+           ghostTags = ghostPost.get("tags", [])
+           ghostToot = f"{ghostTitle}\n{ghostExcerpt}\n{ghostURL}"
 
+           
            hashtags = tags_to_mastodon_has(ghostTags)
            print("Adding Hashtags: ", hashtags)
-           ghostToot = ghostTitle + "\n" + ghostExcerpt + "\n" + ghostURL + "\n" + hashtags
+           ghostToot = f"{ghostToot}\n{hashtags}"
            print("Creating toot: ", ghostToot)
            mastodon = Mastodon(access_token = access_token, api_base_url = base_url, debug_requests=True)           
            mastodon.toot(ghostToot)
@@ -33,6 +35,7 @@ def get_webhook():
 
 def tags_to_mastodon_has(ghostTags):
 # convert ghost cms tags to mastodon hashtags
+        return " ".join(f"#{tag['name']}" for tag in ghostTags)
         tagsList = ''
         for tags in ghostTags:
                 print(tags["name"])
@@ -58,10 +61,10 @@ def limit_remote_addr():
 def check_access():
         print("Checking token and URL...")
         # check if token and url are set
-        if access_token == None:
+        if access_token is None:
           print("Missing Mastodon access token")
           raise RuntimeError('Missing Mastodon access token')
-        elif base_url == None:
+        elif base_url is None:
           print("Missing Mastodon base URL")
           raise RuntimeError('Missing Mastodon base URL')
         else:
