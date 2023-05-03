@@ -18,4 +18,4 @@ six==1.16.0
 urllib3==1.26.15
 uWSGI==2.0.21
 Werkzeug==2.2.3
-zipp==3.11.0
+zipp==3.15.0
