@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "ghostcms2mastodon"
+version = "1.1.8"
+description = "Send posts from GhostCMS to Mastodon."
+authors = ["Massoud Ahmed <okko@okxo.de>"]
+license = "GPLv3"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+blurhash = "^1.1.4"
+certifi = "^2022.12.7"
+charset-normalizer = "^3.1.0"
+click = "^8.1.3"
+decorator = "^5.1.1"
+Flask = "^2.3.2"
+idna = "^3.4"
+importlib-metadata = "^6.6.0"
+itsdangerous = "^2.1.2"
+Jinja2 = "^3.1.2"
+MarkupSafe = "^2.1.2"
+"Mastodon.py" = "^1.8.1"
+python-dateutil = "^2.8.2"
+python-magic = "^0.4.27"
+pytz = "^2023.3"
+requests = "^2.28.2"
+six = "^1.16.0"
+urllib3 = "^1.26.15"
+uWSGI = "^2.0.21"
+Werkzeug = "^2.3.3"
+zipp = "^3.15.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

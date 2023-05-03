@@ -164,8 +164,12 @@ location /webhook {
 ```
 Restart Nginx.
 
+# Poetry
+Dependencies are in pyproject.toml
+
 
 # Bare metal
+```
 apt install python3-dev python3-venv \
 pip3 install -r requirements \
 python3 -m venv webhook && source webhook/bin/activate \
@@ -174,8 +178,11 @@ cp Pythonfiles and ini files to your webhook folder \
 export MASTODON_ACCESS_TOKEN='**Add_your_Access_Token_Here**' \
 export MASTODON_BASE_URL='**https://Add_your_Mastodon_URL_Here**' \
 export TRUSTED_PROXIES='**LIST of IPs with access to local webhook endpoint**'\
-start uwsgi server: uwsgi --socket 127.0.0.1:5000 --protocol=http -w wsgi:app
-
+```
+start uwsgi server: 
+```
+uwsgi --socket 127.0.0.1:5000 --protocol=http -w wsgi:app
+```
  
 # Acknowledgements
 This project uses https://github.com/halcy/Mastodon.py and would not be feasible without this advance work.
