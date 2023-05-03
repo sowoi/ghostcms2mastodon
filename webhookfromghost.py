@@ -53,7 +53,6 @@ def limit_remote_addr():
     print("Got IP ", remote) 
     if remote not in str(trusted_proxies):
             print("Your IP is not in trusted proxies list!")
-            print(str(trusted_proxies))
             # forbidden
             abort(403)
          
@@ -83,4 +82,4 @@ def check_if_valid_ghost_post():
 
     
 if __name__ == '__main__':
-        app.run(host="0.0.0.0", debug=True)
+        app.run(host="0.0.0.0", debug=False)
